@@ -40,7 +40,32 @@ type RegisterResult {
   user: User
 }
 
+input createUserInput {
+  name: String!
+  password: String!
+  role: String!
+  title: String
+  description: String
+}
+
+type createUserResult {
+  success: Boolean!
+  errors: [String]
+  user: User
+}
+
 type LoginByTokenResult {
+  success: Boolean!
+  user: User
+  errors: [String]
+}
+
+type GetUsersResult {
+  success: Boolean!
+  users: [User]
+}
+
+type GetUserResult {
   success: Boolean!
   user: User
   errors: [String]
@@ -48,9 +73,12 @@ type LoginByTokenResult {
 
 type Query {
   loginByToken(token: String): LoginByTokenResult
+  getUsers: GetUsersResult
+  getUser(user_id: Int): GetUserResult
 }
 
 type Mutation {
   login(input: LoginInput!): LoginResult
   register(input: RegisterInput!): RegisterResult
+  createUser(input: createUserInput!): createUserResult
 }
