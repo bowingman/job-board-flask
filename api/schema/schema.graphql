@@ -23,7 +23,7 @@ type LoginResult {
   success: Boolean!
   errors: [String]
   user: User
-  token: String!
+  token: String
 }
 
 input RegisterInput {
@@ -40,8 +40,14 @@ type RegisterResult {
   user: User
 }
 
+type LoginByTokenResult {
+  success: Boolean!
+  user: User
+  errors: [String]
+}
+
 type Query {
-  loginByToken(Token: String): User
+  loginByToken(token: String): LoginByTokenResult
 }
 
 type Mutation {

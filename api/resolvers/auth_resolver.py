@@ -1,17 +1,47 @@
+import jwt
 from graphql import GraphQLError
-from api import db
-from api.models import User
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 from graphql import GraphQLError
 
+from api import db
+from api.models import User
+from api.helpers.encode_jwt import encode_jwt
+
 
 def login_resolver(obj, info, input):
-    return {
-        'success': False,
-        'token': '123',
-        'errors': ['erorr']
-    }
+    name, password = input.get('name'), input.get('password')
+
+    user = User.query.filter_by(name=name).first()
+
+    if user is None:
+        return {
+            'success': False,
+            'errors': [f"They are not user {name}."]
+        }
+
+    valid_password = check_password_hash(user.password, password)
+
+    if not valid_password:
+        return {
+            'success': False,
+            'errors': ["Wrong Password"]
+        }
+
+    try:
+        token = encode_jwt(user.id, life=3600)
+
+        return {
+            'success': True,
+            'token': token,
+            'user': user,
+        }
+
+    except Exception as err:
+        return {
+            'success': False,
+            'errors': ['123'],
+        }
 
 
 def register_resolver(obj, info, input):
@@ -46,3 +76,26 @@ def register_resolver(obj, info, input):
     except IntegrityError as err:
         errorInfo = err.orig.args
         raise GraphQLError(message=errorInfo)
+
+
+def login_by_token_resolver(obj, info, token):
+    decoded_data = jwt.decode(token, "secret", algorithms=["HS256"])
+
+    if decoded_data is None:
+        return {
+            'success': False,
+            'errors': ['Wrong Token!']
+        }
+
+    user = User.query.filter_by(id=decoded_data['sub']).first()
+
+    if user is None:
+        return {
+            'success': False,
+            'errors': ['Wrong Token!']
+        }
+
+    return {
+        'success': True,
+        'user': user,
+    }
