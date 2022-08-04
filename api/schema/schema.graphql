@@ -11,6 +11,7 @@ type User {
   title: String
   description: String
   rate: Int
+  approved: Boolean
 }
 
 input LoginInput {
