@@ -11,3 +11,4 @@ class User(db.Model):
     description = db.Column(db.String, nullable=True)
     rate = db.Column(db.Integer, default=0)
     approved = db.Column(db.Boolean, default=False)
+    jobs = db.relationship('Job', backref='user', lazy=True)
