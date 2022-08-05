@@ -1,4 +1,4 @@
-from email.policy import default
+from sqlalchemy.orm import relationship
 from app import db
 
 
@@ -11,4 +11,4 @@ class User(db.Model):
     description = db.Column(db.String, nullable=True)
     rate = db.Column(db.Integer, default=0)
     approved = db.Column(db.Boolean, default=False)
-    jobs = db.relationship('Job', backref='user', lazy=True)
+    jobs = relationship('Job', back_populates="user", lazy=True)

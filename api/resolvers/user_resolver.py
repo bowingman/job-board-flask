@@ -1,4 +1,3 @@
-from tkinter import N
 from graphql import GraphQLError
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash

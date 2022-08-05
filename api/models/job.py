@@ -1,6 +1,4 @@
-from email.policy import default
-
-from sqlalchemy import null
+from sqlalchemy.orm import relationship
 from app import db
 
 
@@ -16,3 +14,5 @@ class Job(db.Model):
     company_tips = db.Column(db.String, nullable=True)
     created_at = db.Column(db.Date, nullable=True)
     job_info = db.Column(db.String, nullable=True)
+
+    user = relationship("User",  back_populates="jobs")
