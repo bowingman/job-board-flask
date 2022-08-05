@@ -12,3 +12,4 @@ class User(db.Model):
     rate = db.Column(db.Integer, default=0)
     approved = db.Column(db.Boolean, default=False)
     jobs = relationship('Job', back_populates="user", lazy=True)
+    applications = relationship('Application', back_populates="application")

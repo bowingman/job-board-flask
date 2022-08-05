@@ -1,3 +1,4 @@
+from ntpath import realpath
 from sqlalchemy.orm import relationship
 from app import db
 
@@ -16,3 +17,4 @@ class Job(db.Model):
     job_info = db.Column(db.String, nullable=True)
 
     user = relationship("User",  back_populates="jobs")
+    applications = relationship("Application", back_populates="application")
