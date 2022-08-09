@@ -11,5 +11,5 @@ class Application(db.Model):
     answer = db.Column(db.String, nullable=True)
     answered = db.Column(db.Boolean, default=False)
 
-    user = relationship("User", back_populates="users")
-    job = relationship("Job", back_populates="jobs")
+    user = relationship("User", back_populates="applications", lazy=True)
+    job = relationship("Job", back_populates="applications", lazy=True)

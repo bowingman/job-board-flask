@@ -11,5 +11,6 @@ class User(db.Model):
     description = db.Column(db.String, nullable=True)
     rate = db.Column(db.Integer, default=0)
     approved = db.Column(db.Boolean, default=False)
+
     jobs = relationship('Job', back_populates="user", lazy=True)
-    applications = relationship('Application', back_populates="application")
+    applications = relationship('Application', back_populates="user")

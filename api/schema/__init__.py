@@ -6,7 +6,8 @@ from api.resolvers import login_resolver, \
     create_user_resolver, \
     get_users_resolver, \
     get_user_resolver, \
-    create_job_resolver
+    create_job_resolver, \
+    create_application_resolver
 
 query = ObjectType("Query")
 query.set_field('loginByToken', login_by_token_resolver)
@@ -18,6 +19,7 @@ mutation.set_field('login', login_resolver)
 mutation.set_field('register', register_resolver)
 mutation.set_field('createUser', create_user_resolver)
 mutation.set_field('createJob', create_job_resolver)
+mutation.set_field('createApplication', create_application_resolver)
 
 type_defs = load_schema_from_path("api/schema/schema.graphql")
 schema = make_executable_schema(type_defs, query, mutation)

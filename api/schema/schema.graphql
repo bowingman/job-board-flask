@@ -12,6 +12,9 @@ type User {
   description: String
   rate: Int
   approved: Boolean
+
+  jobs: [User]
+  applications: [Application]
 }
 
 type Job {
@@ -27,6 +30,21 @@ type Job {
   approved: Boolean
   status: String
   created_at: String
+
+  applications: [Application]
+}
+
+type Application {
+  id: ID!
+  user_id: ID
+  job_id: ID
+  content: String
+  rate: String
+  answer: String
+  answered: Boolean
+
+  user: User
+  job: Job
 }
 
 input LoginInput {
@@ -100,6 +118,18 @@ type createJobResult {
   job: Job
 }
 
+input createApplicationInput {
+  job_id: Int
+  content: String
+  rate: Int
+}
+
+type createApplicationResult {
+  success: Boolean!
+  errors: [String]
+  application: Application
+}
+
 type Query {
   loginByToken(token: String): LoginByTokenResult
   getUsers: GetUsersResult
@@ -111,4 +141,5 @@ type Mutation {
   register(input: RegisterInput!): RegisterResult
   createUser(input: createUserInput!): createUserResult
   createJob(input: createJobInput!): createJobResult
+  createApplication(input: createApplicationInput!): createApplicationResult
 }
